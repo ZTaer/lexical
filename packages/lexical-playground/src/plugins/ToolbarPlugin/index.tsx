@@ -1,3 +1,4 @@
+// @ts-ignore
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
@@ -215,6 +216,7 @@ function BlockFormatDropDown({
   const formatParagraph = () => {
     editor.update(() => {
       const selection = $getSelection();
+      console.log('选中的内容$getSelection', selection);
       if ($isRangeSelection(selection)) {
         $setBlocksType(selection, () => $createParagraphNode());
       }
@@ -546,8 +548,12 @@ export default function ToolbarPlugin({
   const [codeLanguage, setCodeLanguage] = useState<string>('');
   const [isEditable, setIsEditable] = useState(() => editor.isEditable());
 
+  console.log('editor', editor);
+  console.log('原始数据', editor.getEditorState().toJSON());
+
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
+
     if ($isRangeSelection(selection)) {
       const anchorNode = selection.anchor.getNode();
       let element =
@@ -558,9 +564,12 @@ export default function ToolbarPlugin({
               return parent !== null && $isRootOrShadowRoot(parent);
             });
 
+      //  兜底逻辑: 获取顶级元素或抛出
       if (element === null) {
         element = anchorNode.getTopLevelElementOrThrow();
       }
+
+      console.log('促发$updateToolbar', selection, element);
 
       const elementKey = element.getKey();
       const elementDOM = activeEditor.getElementByKey(elementKey);
@@ -697,12 +706,17 @@ export default function ToolbarPlugin({
     );
   }, [$updateToolbar, activeEditor, editor]);
 
+  /**
+   * 监听快捷键
+   */
   useEffect(() => {
     return activeEditor.registerCommand(
       KEY_MODIFIER_COMMAND,
       (payload) => {
         const event: KeyboardEvent = payload;
         const {code, ctrlKey, metaKey} = event;
+
+        console.log('监听快捷键', payload);
 
         if (code === 'KeyK' && (ctrlKey || metaKey)) {
           event.preventDefault();
