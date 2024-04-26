@@ -234,6 +234,7 @@ function BlockFormatDropDown({
 
   const formatBulletList = () => {
     if (blockType !== 'bullet') {
+      debugger;
       editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
     } else {
       formatParagraph();
