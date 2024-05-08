@@ -521,6 +521,9 @@ export default function ToolbarPlugin({
   setIsLinkEditMode: Dispatch<boolean>;
 }): JSX.Element {
   const [editor] = useLexicalComposerContext();
+
+  console.log('editor', editor);
+
   const [activeEditor, setActiveEditor] = useState(editor);
   const [blockType, setBlockType] =
     useState<keyof typeof blockTypeToBlockName>('paragraph');
@@ -549,7 +552,6 @@ export default function ToolbarPlugin({
   const [codeLanguage, setCodeLanguage] = useState<string>('');
   const [isEditable, setIsEditable] = useState(() => editor.isEditable());
 
-  console.log('editor', editor);
   console.log('原始数据', editor.getEditorState().toJSON());
 
   const $updateToolbar = useCallback(() => {

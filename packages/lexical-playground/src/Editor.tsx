@@ -93,6 +93,7 @@ export default function Editor(): JSX.Element {
     },
   } = useSettings();
   const isEditable = useLexicalEditable();
+  console.log('isEditable', isEditable);
   const text = isCollab
     ? 'Enter some collaborative rich text...'
     : isRichText
@@ -110,6 +111,8 @@ export default function Editor(): JSX.Element {
       setFloatingAnchorElem(_floatingAnchorElem);
     }
   };
+
+  console.log('floatingAnchorElem', floatingAnchorElem);
 
   useEffect(() => {
     const updateViewPortWidth = () => {

@@ -77,7 +77,7 @@ function FloatingLinkEditor({
       }
     }
     const editorElem = editorRef.current;
-    const nativeSelection = window.getSelection();
+    const nativeSelection = window.getSelection(); // 获取当前选中节点 ( 获取核心坐标点 )
     const activeElement = document.activeElement;
 
     if (editorElem === null) {
@@ -95,6 +95,9 @@ function FloatingLinkEditor({
     ) {
       const domRect: DOMRect | undefined =
         nativeSelection.focusNode?.parentElement?.getBoundingClientRect();
+
+      console.log('domRect', domRect);
+
       if (domRect) {
         domRect.y += 40;
         setFloatingElemPositionForLinkEditor(domRect, editorElem, anchorElem);
